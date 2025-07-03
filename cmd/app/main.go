@@ -1,6 +1,7 @@
 package main
 
 import (
+	"log"
 	"net/http"
 	"sync"
 	"workmate/cmd/internal/handler"
@@ -14,6 +15,11 @@ func main() {
 	delivery := handler.NewTaskHandler(taskService)
 
 	router := handler.NewRouter(delivery)
-	http.ListenAndServe(":8080", router)
+
+	log.Printf("Listening on port 8080")
+	err := http.ListenAndServe(":8080", router)
+	if err != nil {
+		log.Fatalf("Server failed: %v", err)
+	}
 
 }
